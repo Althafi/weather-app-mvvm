@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">weatherapp</string>
+    <string name="wind_speed">%1$.1f km/h</string>
+    <string name="humidity_percent">%1$d%%</string>
+    <string name="current_temperature">%1$.1f°</string>
+    <string name="temp_min">%1$.1f°</string>
+    <string name="temp_max">%1$.1f°</string>
+    <string name="background">background</string>
+    <string name="add_city">add city</string>
+    <string name="city_name">city name</string>
+    <string name="weather_icon">weather icon</string>
+    <string name="wind">Wind</string>
+    <string name="status_temp">status temp</string>
+    <string name="temp_max_icon">temp max icon</string>
+    <string name="temp_min_icon">temp min icon</string>
+    <string name="humidity_icon">humidity icon</string>
+    <string name="humidity">Humidity</string>
 </resources>

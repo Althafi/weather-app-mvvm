@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/iv_bg"
+        android:contentDescription="@string/background"
         android:scaleType="centerCrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,6 +32,7 @@
 
     <ImageView
         android:id="@+id/iv_addCity"
+        android:contentDescription="@string/add_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -48,7 +50,7 @@
         android:shadowDx="1"
         android:shadowDy="3"
         android:shadowRadius="3"
-        android:text="-"
+        android:text="@string/city_name"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,6 +89,7 @@
                 android:id="@+id/iv_weatherIcon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/weather_icon"
                 app:srcCompat="@drawable/wind" />
 
             <TextView
@@ -97,7 +101,7 @@
                 android:shadowDx="1"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="-Km"
+                android:text="@string/wind_speed"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -110,7 +114,7 @@
                 android:shadowDx="1"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="Wind"
+                android:text="@string/wind"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -131,7 +135,7 @@
                 android:shadowDx="1"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="-"
+                android:text="@string/status_temp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -141,10 +145,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-10dp"
-                android:text="0"
+                android:shadowColor="@color/black"
+                android:shadowDx="1"
+                android:shadowDy="3"
+                android:shadowRadius="3"
+                android:text="@string/current_temperature"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="76dp" />
+                android:textSize="55sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -158,6 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/temp_max_icon"
                     app:srcCompat="@drawable/arrow_up" />
 
                 <TextView
@@ -169,7 +178,7 @@
                     android:shadowDx="1"
                     android:shadowDy="3"
                     android:shadowRadius="3"
-                    android:text="0"
+                    android:text="@string/temp_max"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -182,7 +191,7 @@
                     android:shadowDx="1"
                     android:shadowDy="3"
                     android:shadowRadius="3"
-                    android:text="0"
+                    android:text="@string/temp_min"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -191,6 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/temp_min_icon"
                     app:srcCompat="@drawable/arrow_down" />
 
             </LinearLayout>
@@ -205,6 +215,7 @@
 
             <ImageView
                 android:id="@+id/iv_humidityIcon"
+                android:contentDescription="@string/humidity_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/humidity" />
@@ -218,7 +229,7 @@
                 android:shadowDx="1"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="-%"
+                android:text="@string/humidity_percent"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -231,7 +242,7 @@
                 android:shadowDx="1"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="Humidity"
+                android:text="@string/humidity"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp" />

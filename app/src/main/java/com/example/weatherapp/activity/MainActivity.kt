@@ -50,20 +50,19 @@ class MainActivity : AppCompatActivity() {
                             progressBar.visibility = View.GONE
                             detailLayout.visibility = View.VISIBLE
                             weatherResponse?.let {responseApi ->
+                                val windSpeed = responseApi.wind?.speed ?: 0.0
+                                val humidityPercent = responseApi.main?.humidity ?: 0
+                                val currentTemp = responseApi.main?.temp ?: 0.0
+                                val tempMin = responseApi.main?.tempMin ?: 0.0
+                                val tempMax = responseApi.main?.tempMax ?: 0.0
+
                                 tvStatusTemp.text = responseApi.weather?.get(0)?.main ?: "-"
-                                tvWindSpeed.text = responseApi.wind?.speed?.let {
-                                    Math.round(it).toString()
-                                } + "Km"
-                                tvHumidityPercent.text = responseApi.main?.humidity.toString() + "%"
-                                tvCurrentTemp.text = responseApi.main?.temp?.let {
-                                    Math.round(it).toString()
-                                } + "°"
-                                tvTempMin.text = responseApi.main?.tempMin?.let {
-                                    Math.round(it).toString()
-                                } + "°"
-                                tvTempMax.text = responseApi.main?.tempMax?.let {
-                                    Math.round(it).toString()
-                                } + "°"
+                                tvWindSpeed.text = getString(R.string.wind_speed, windSpeed)
+                                tvHumidityPercent.text = getString(R.string.humidity_percent, humidityPercent)
+                                tvCurrentTemp.text = getString(R.string.current_temperature, currentTemp)
+                                tvTempMin.text = getString(R.string.temp_min, tempMin)
+                                tvTempMax.text = getString(R.string.temp_max, tempMax)
+
 
                                 val imageBackground = if (isNight()) R.drawable.night_bg else {
                                     setDynamicWallpaper(responseApi.weather?.get(0)?.icon ?: "-")
@@ -90,23 +89,23 @@ class MainActivity : AppCompatActivity() {
     private fun setDynamicWallpaper(icon: String): Int {
         return when (icon.dropLast(1)) {
             "01" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
                 R.drawable.snow_bg
             }
             "02","03","04" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
                 R.drawable.cloudy_bg
             }
             "09","10", "11" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
                 R.drawable.rainy_bg
             }
             "13" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
                 R.drawable.snow_bg
             }
             "50" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
                 R.drawable.haze_bg
             }
             else -> 0
@@ -116,26 +115,26 @@ class MainActivity : AppCompatActivity() {
     private fun setEffectRainSnow(icon: String) {
         when (icon.dropLast(1)) {
             "01" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
             }
             "02","03","04" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
             }
             "09","10", "11" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
             }
             "13" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
             }
             "50" -> {
-                initWeatherView(PrecipType.CLEAR)
+                initWeatherView()
             }
         }
     }
 
-    private fun initWeatherView(type: PrecipType) {
+    private fun initWeatherView() {
         binding.weatherView.apply {
-            setWeatherData(type)
+            setWeatherData(PrecipType.CLEAR)
             angle = -20
             emissionRate = 100.0f
         }
