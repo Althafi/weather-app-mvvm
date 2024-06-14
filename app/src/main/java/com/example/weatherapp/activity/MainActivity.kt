@@ -3,16 +3,23 @@ package com.example.weatherapp.activity
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.adapter.ForecastWeatherAdapter
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.model.ForecastResponseApi
 import com.example.weatherapp.model.WeatherResponseApi
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.github.matteobattilana.weather.PrecipType
+import eightbitlab.com.blurview.RenderScriptBlur
 import retrofit2.Call
+import retrofit2.Response
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WeatherViewModel by viewModels()
     private val calender by lazy { Calendar.getInstance()}
+    private val forecastWeatherAdapter by lazy { ForecastWeatherAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             var lat = 51.5087
             var lon = -0.1208
             var name = "London"
+
+            //current weather
             tvCityName.text = name
 
             progressBar.visibility = View.VISIBLE
@@ -77,6 +87,50 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             )
+            //weather forecast
+            var radius = 10f
+            val decorView = window.decorView
+            val rootView: ViewGroup? = (decorView.findViewById(android.R.id.content))
+            val windowBackground = decorView.background
+
+            rootView?.let {
+                blurView.setupWith(it, RenderScriptBlur(this@MainActivity))
+                    .setBlurRadius(radius)
+                    .setFrameClearDrawable(windowBackground)
+                blurView.outlineProvider = ViewOutlineProvider.BACKGROUND
+                blurView.clipToOutline = true
+            }
+
+            //forecast weather
+            viewModel.loadForecastWeather(lat, lon, "metric").enqueue(
+                object : retrofit2.Callback<ForecastResponseApi> {
+                    override fun onResponse(
+                        call: Call<ForecastResponseApi>,
+                        response: Response<ForecastResponseApi>
+                    ) {
+                        if (response.isSuccessful) {
+                            val data = response.body()
+                            blurView.visibility = View.VISIBLE
+
+                            data?.let {
+                                forecastWeatherAdapter.differ.submitList(it.list)
+                                rvForecast.apply {
+                                    layoutManager = LinearLayoutManager(
+                                        this@MainActivity,
+                                        LinearLayoutManager.HORIZONTAL,
+                                        false
+                                    )
+                                    adapter = forecastWeatherAdapter
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ForecastResponseApi>, t: Throwable) {
+                        Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
         }
 
     }
@@ -90,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         return when (icon.dropLast(1)) {
             "01" -> {
                 initWeatherView()
-                R.drawable.snow_bg
+                R.drawable.sunny_bg
             }
             "02","03","04" -> {
                 initWeatherView()
