@@ -2,8 +2,8 @@ package com.example.weatherapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.repository.WeatherRepository
-import com.example.weatherapp.server.ApiClient
-import com.example.weatherapp.server.ApiService
+import com.example.weatherapp.network.ApiClient
+import com.example.weatherapp.network.ApiService
 
 class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
 

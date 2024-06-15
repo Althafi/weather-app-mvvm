@@ -1,6 +1,6 @@
 package com.example.weatherapp.repository
 
-import com.example.weatherapp.server.ApiService
+import com.example.weatherapp.network.ApiService
 
 class WeatherRepository(private val api: ApiService) {
 

@@ -1,5 +1,6 @@
 package com.example.weatherapp.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -40,24 +41,35 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            var lat = 51.5087
-            var lon = -0.1208
-            var name = "London"
+
+            val lat = intent.getDoubleExtra("lat", 0.0)
+            val lon = intent.getDoubleExtra("lon", 0.0)
+            val name = intent.getStringExtra("name")
+
+//            if (lat == 0.0) {
+//                var lat = 51.5087
+//                var lon = -0.1208
+//                var name = "London"
+//            }
+
+            ivAddCity.setOnClickListener {
+                startActivity(Intent(this@MainActivity, CityListActivity::class.java))
+            }
 
             //current weather
             tvCityName.text = name
 
-            progressBar.visibility = View.VISIBLE
+            pbLoadWeather.visibility = View.VISIBLE
 
             viewModel.loadCurrentWeather(lat, lon, "metric").enqueue(
                 object : retrofit2.Callback<WeatherResponseApi> {
                     override fun onResponse(
                         call: Call<WeatherResponseApi>,
-                        response: retrofit2.Response<WeatherResponseApi>
+                        response: Response<WeatherResponseApi>
                     ) {
                         if (response.isSuccessful) {
                             val weatherResponse = response.body()
-                            progressBar.visibility = View.GONE
+                            pbLoadWeather.visibility = View.GONE
                             detailLayout.visibility = View.VISIBLE
                             weatherResponse?.let {responseApi ->
                                 val windSpeed = responseApi.wind?.speed ?: 0.0
@@ -88,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                 }
             )
             //weather forecast
-            var radius = 10f
+            val radius = 10f
             val decorView = window.decorView
             val rootView: ViewGroup? = (decorView.findViewById(android.R.id.content))
             val windowBackground = decorView.background
